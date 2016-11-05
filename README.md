@@ -1,18 +1,16 @@
-# Sublime Text Cheatsheet
+# Chrono Lafay 
+
+<img align="center" src="http://www.musculaction.com/images/intro-lafay.jpg" alt="lafay">
 
 ### What's this app?
-This app provides a quick reference to each shortcut available in Sublime Text.
-
-The Sublime Text Cheatsheet refers and allows you to easily share all built-in shortcut keys from this awesome development tool.
-
-From the official documentation, you have the choice between two platforms (Mac or Windows).
+The Lafay Method is a method of fitness created by french author Olivier Lafay. The method utilizes bodyweight exercises to achieve several fitness goals with results comparable to standard weight-lifting.
 
 ### Source
 
-Shortcut list source: http://sweetme.at/2013/08/08/sublime-text-keyboard-shortcuts/  
+The method instructions (in French): https://olivier-lafay.com/
 
 ### Download
-https://play.google.com/store/apps/details?id=fr.joeybronner.chronolafayapp&hl=fr 
+Not available
 
 ### Preview
 Not available 
