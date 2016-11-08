@@ -1,12 +1,14 @@
 package fr.joeybronner.chronolafayapp;
 
 import android.content.Intent;
+import android.os.CountDownTimer;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import com.hanks.htextview.HTextView;
 import com.hanks.htextview.HTextViewType;
@@ -16,17 +18,12 @@ import fr.joeybronner.chronolafayapp.utils.Utils;
 
 public class MainActivity extends AppCompatActivity {
 
-    ImageView ivWindows, ivMac;
-    Button bt25s;
+    Button bt25s, btStop;
     ProgressBar progress;
-    HTextView hTextView;
-    Thread progressBarThread;
-    Button btStop;
-    boolean updatePB;
-    double SLIDER_TIMER, TMP_SLIDER_TIMER;
+    TextView tvChrono;
+    CountDownTimer countDownTimer;
+    long SLIDER_TIMER;
     int progressStatus;
-    long millis;
-    int invisible = View.INVISIBLE;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,49 +34,71 @@ public class MainActivity extends AppCompatActivity {
         progress = (ProgressBar) this.findViewById(R.id.progress);
         btStop = (Button) this.findViewById(R.id.btStop);
 
-        /*hTextView = (HTextView) findViewById(R.id.text);
-        hTextView.setAnimateType(HTextViewType.TYPER);
-        hTextView.animateText(getResources().getString(R.string.app_product_name));*/
+        tvChrono = (TextView) this.findViewById(R.id.tvChrono);
 
         Utils.overrideFonts(getApplicationContext(), getWindow().getDecorView().getRootView());
 
+        btStop.setOnClickListener(new View.OnClickListener(){
+            public void onClick(View v) {
+                actionStop();
+            }
+        });
+
         bt25s.setOnClickListener(new View.OnClickListener(){
             public void onClick(View v) {
-                SLIDER_TIMER = 25000;
-                updatePB = true;
+                initTimer(25000);
+                resetProgressBar();
                 btStop.setVisibility(View.VISIBLE);
-                progressBarThread = new Thread(new Runnable() {
-                    public void run() {
-                        millis = System.currentTimeMillis();
-                        progress.setMax(100);
-                        progress.setProgress(0);
-                        TMP_SLIDER_TIMER = 0;
-                        while(updatePB==true) {
-                            try {
-                                TMP_SLIDER_TIMER += 100;
-                                progressStatus = doWork(millis);
-                                progress.setProgress(progressStatus);
-                                progress.refreshDrawableState();
-                                if (progressStatus>100) {
-                                    progress.setProgress(0);
-                                    updatePB=false;
-                                    btStop.setVisibility(invisible);
-                                }
-                            } catch (InterruptedException e) {
-                                e.printStackTrace();
-                            }
-                        }
-                        // TODO: Notify at the end of the progressbar to set the button to visibility false
-                        //btStop.setVisibility(View.INVISIBLE);
-                    }
-                });
-                progressBarThread.start();
+                startTimer();
             }
         });
     }
 
-    private int doWork(long millis) throws InterruptedException {
-        long diff = System.currentTimeMillis() - millis;
+    private void actionStop() {
+        resetProgressBar();
+        resetTimer();
+        btStop.setVisibility(View.INVISIBLE);
+    }
+
+    private void initTimer(long time) {
+        SLIDER_TIMER = time;
+    }
+
+    private void resetTimer() {
+        tvChrono.setText("train!!");
+        countDownTimer.cancel();
+        countDownTimer = null;
+    }
+
+    private void resetProgressBar() {
+        progress.setMax(100);
+        progress.setProgress(0);
+        progress.refreshDrawableState();
+    }
+
+    private int getProgress(long millis) {
+        long diff = SLIDER_TIMER - millis;
         return (int) ((diff*100)/SLIDER_TIMER);
+    }
+
+    private void startTimer() {
+        countDownTimer = new CountDownTimer(SLIDER_TIMER, 1000) {
+
+            public void onTick(long millisUntilFinished) {
+                progressStatus = getProgress(millisUntilFinished);
+                progress.setProgress(progressStatus);
+                progress.refreshDrawableState();
+
+                String seconds = String.format("%02d", millisUntilFinished / 1000);
+                String minutes = String.format("%02d", millisUntilFinished / 1000 / 60);
+
+                tvChrono.setText(minutes + ":" + seconds);
+            }
+
+            public void onFinish() {
+                actionStop();
+            }
+
+        }.start();
     }
 }
