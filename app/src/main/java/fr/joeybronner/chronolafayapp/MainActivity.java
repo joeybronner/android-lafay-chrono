@@ -1,8 +1,5 @@
 package fr.joeybronner.chronolafayapp;
 
-import android.app.ActionBar;
-import android.content.Intent;
-import android.content.res.AssetFileDescriptor;
 import android.graphics.Typeface;
 import android.graphics.drawable.ColorDrawable;
 import android.media.MediaPlayer;
@@ -14,17 +11,9 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import com.hanks.htextview.HTextView;
-import com.hanks.htextview.HTextViewType;
-
-import java.io.IOException;
-
-import fr.joeybronner.chronolafayapp.utils.Constants;
 import fr.joeybronner.chronolafayapp.utils.Utils;
 
 public class MainActivity extends AppCompatActivity {
@@ -75,25 +64,62 @@ public class MainActivity extends AppCompatActivity {
 
         btStop.setOnClickListener(new View.OnClickListener(){
             public void onClick(View v) {
-                actionStop();
+                actionStop(true);
             }
         });
 
         bt25s.setOnClickListener(new View.OnClickListener(){
             public void onClick(View v) {
-                actionStop();
-                initTimer(25000);
-                resetProgressBar();
-                btStop.setVisibility(View.VISIBLE);
-                startTimer();
+                startWorkout(25000);
+            }
+        });
+
+        bt60s.setOnClickListener(new View.OnClickListener(){
+            public void onClick(View v) {
+                startWorkout(60000);
+            }
+        });
+
+        bt90s.setOnClickListener(new View.OnClickListener(){
+            public void onClick(View v) {
+                startWorkout(90000);
+            }
+        });
+
+        bt120s.setOnClickListener(new View.OnClickListener(){
+            public void onClick(View v) {
+                startWorkout(120000);
+            }
+        });
+
+        bt180s.setOnClickListener(new View.OnClickListener(){
+            public void onClick(View v) {
+                startWorkout(180000);
+            }
+        });
+
+        bt240s.setOnClickListener(new View.OnClickListener(){
+            public void onClick(View v) {
+                startWorkout(240000);
             }
         });
     }
 
-    private void actionStop() {
+    private void startWorkout(long time) {
+        actionStop(false);
+        initTimer(time);
+        resetProgressBar();
+        btStop.setVisibility(View.VISIBLE);
+        startTimer();
+    }
+
+    private void actionStop(boolean raz) {
+        Utils.stopCountdownSound(mp);
         resetProgressBar();
         resetTimer();
         btStop.setVisibility(View.INVISIBLE);
+        if (raz)
+            tvChrono.setText("00:00");
     }
 
     private void initTimer(long time) {
@@ -101,13 +127,10 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void resetTimer() {
-        tvChrono.setText("train!!");
         try {
             countDownTimer.cancel();
             countDownTimer = null;
-        } catch (Exception e) {
-            /* Nothing */
-        }
+        } catch (Exception e) { /* Nothing */ }
     }
 
     private void resetProgressBar() {
@@ -134,15 +157,18 @@ public class MainActivity extends AppCompatActivity {
                 if(seconds.equals("05") && !mp.isPlaying()) {
                     Utils.playCountdownSound(getAssets(), mp);
                 }
-
                 tvChrono.setText(minutes + ":" + seconds);
             }
 
             public void onFinish() {
-                actionStop();
+                actionStop(true);
             }
         }.start();
     }
+
+    /*
+     * Methods related to the top menu in the Action Bar
+     */
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

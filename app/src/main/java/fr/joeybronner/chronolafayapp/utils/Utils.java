@@ -46,4 +46,7 @@ public class Utils {
         }
     }
 
+    public static void stopCountdownSound(MediaPlayer mp) {
+        mp.stop();
+    }
 }
