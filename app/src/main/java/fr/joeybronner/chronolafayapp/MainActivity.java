@@ -151,10 +151,10 @@ public class MainActivity extends AppCompatActivity {
                 progress.setProgress(progressStatus);
                 progress.refreshDrawableState();
 
-                String seconds = String.format("%02d", millisUntilFinished / 1000);
+                String seconds = String.format("%02d", (millisUntilFinished / 1000) % 60);
                 String minutes = String.format("%02d", millisUntilFinished / 1000 / 60);
 
-                if(seconds.equals("05") && !mp.isPlaying()) {
+                if(seconds.equals("05") && minutes.equals("00") && !mp.isPlaying()) {
                     Utils.playCountdownSound(getAssets(), mp);
                 }
                 tvChrono.setText(minutes + ":" + seconds);
