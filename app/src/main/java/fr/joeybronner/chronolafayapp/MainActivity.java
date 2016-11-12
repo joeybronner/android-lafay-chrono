@@ -1,5 +1,6 @@
 package fr.joeybronner.chronolafayapp;
 
+import android.app.Dialog;
 import android.graphics.Typeface;
 import android.graphics.drawable.ColorDrawable;
 import android.media.MediaPlayer;
@@ -10,8 +11,12 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ProgressBar;
+import android.widget.SeekBar;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 import fr.joeybronner.chronolafayapp.utils.Utils;
@@ -20,7 +25,7 @@ public class MainActivity extends AppCompatActivity {
 
     Button bt25s, bt60s, bt90s, bt120s, bt180s, bt240s, btStop;
     ProgressBar progress;
-    TextView tvChrono;
+    TextView tvChrono, tvSeekBarMin, tvSeekBarMax;
     MediaPlayer mp = new MediaPlayer();
     CountDownTimer countDownTimer;
     long SLIDER_TIMER;
@@ -35,6 +40,12 @@ public class MainActivity extends AppCompatActivity {
 
         android.support.v7.app.ActionBar bar = getSupportActionBar();
         bar.setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.colorAccent)));
+
+        tvSeekBarMin = (TextView) this.findViewById(R.id.tvSeekBarMin);
+        tvSeekBarMin.setTypeface(null, Typeface.BOLD);
+
+        tvSeekBarMax = (TextView) this.findViewById(R.id.tvSeekBarMax);
+        tvSeekBarMax.setTypeface(null, Typeface.BOLD);
 
         bt25s = (Button) this.findViewById(R.id.button25s);
         bt25s.setTypeface(null, Typeface.BOLD);
@@ -61,6 +72,22 @@ public class MainActivity extends AppCompatActivity {
 
         tvChrono = (TextView) this.findViewById(R.id.tvChrono);
         tvChrono.setTypeface(Typeface.createFromAsset(getAssets(), "fonts/BebasNeue.ttf"));
+
+        final SeekBar sk=(SeekBar) this.findViewById(R.id.seekBar);
+        sk.setProgress(1);
+        sk.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress,boolean fromUser) {
+                //updateSpeedTextView(progress);
+                //Constants.SCROLL_SPEED = progress;
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {	}
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {	}
+        });
 
         btStop.setOnClickListener(new View.OnClickListener(){
             public void onClick(View v) {
@@ -181,10 +208,9 @@ public class MainActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             // action with ID action_refresh was selected
-            case R.id.action_settings:
-                Toast.makeText(this, "Refresh selected", Toast.LENGTH_SHORT)
-                        .show();
-                break;
+/*            case R.id.action_settings:
+                showSettingsActivity();
+                break;*/
             // action with ID action_settings was selected
             case R.id.action_info:
                 Toast.makeText(this, "Settings selected", Toast.LENGTH_SHORT)
@@ -194,5 +220,20 @@ public class MainActivity extends AppCompatActivity {
                 break;
         }
         return true;
+    }
+
+    private void showSettingsActivity() {
+        // Create the new dialog without title
+        final Dialog dialog = new Dialog(btStop.getContext());
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setCancelable(true);
+
+        // Content of the dialog
+        dialog.setContentView(R.layout.activity_settings);
+        dialog.show();
+
+        // Load data
+        //tvSpeed = (TextView) dialog.findViewById(R.id.tvScrollSpeed);
+        //updateSpeedTextView(Constants.SCROLL_SPEED);
     }
 }
