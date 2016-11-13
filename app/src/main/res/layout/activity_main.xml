@@ -42,13 +42,13 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-                <TextView
+                <!--<TextView
                     android:id="@+id/tvSeekBarMin"
                     android:gravity="center"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:textColor="@color/white"
-                    android:text="0"/>
+                    android:text="0"/>-->
 
                 <SeekBar
                     android:layout_weight="10"
@@ -64,12 +64,13 @@
                     android:thumb="@drawable/seekbar_thumb" />
 
                 <TextView
-                    android:id="@+id/tvSeekBarMax"
+                    android:id="@+id/tvSeekBarRemaining"
                     android:gravity="center"
+                    android:textSize="20dp"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:textColor="@color/white"
-                    android:text="6"/>
+                    android:text="0"/>
 
         </LinearLayout>
 

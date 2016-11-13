@@ -25,7 +25,7 @@ public class MainActivity extends AppCompatActivity {
 
     Button bt25s, bt60s, bt90s, bt120s, bt180s, bt240s, btStop;
     ProgressBar progress;
-    TextView tvChrono, tvSeekBarMin, tvSeekBarMax;
+    TextView tvChrono, tvSeekBarRemaining;
     MediaPlayer mp = new MediaPlayer();
     CountDownTimer countDownTimer;
     long SLIDER_TIMER;
@@ -41,11 +41,8 @@ public class MainActivity extends AppCompatActivity {
         android.support.v7.app.ActionBar bar = getSupportActionBar();
         bar.setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.colorAccent)));
 
-        tvSeekBarMin = (TextView) this.findViewById(R.id.tvSeekBarMin);
-        tvSeekBarMin.setTypeface(null, Typeface.BOLD);
-
-        tvSeekBarMax = (TextView) this.findViewById(R.id.tvSeekBarMax);
-        tvSeekBarMax.setTypeface(null, Typeface.BOLD);
+        tvSeekBarRemaining = (TextView) this.findViewById(R.id.tvSeekBarRemaining);
+        tvSeekBarRemaining.setTypeface(null, Typeface.BOLD);
 
         bt25s = (Button) this.findViewById(R.id.button25s);
         bt25s.setTypeface(null, Typeface.BOLD);
