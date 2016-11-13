@@ -211,7 +211,7 @@
                 android:layout_height="wrap_content"
                 android:textColor="@color/white"
                 android:visibility="invisible"
-                android:text="RESET"
+                android:text="CANCEL"
                 android:background="@color/red"
                 android:layout_gravity="center_horizontal" />
 

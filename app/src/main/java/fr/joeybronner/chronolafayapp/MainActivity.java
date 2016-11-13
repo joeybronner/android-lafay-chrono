@@ -28,6 +28,7 @@ public class MainActivity extends AppCompatActivity {
     TextView tvChrono, tvSeekBarRemaining;
     MediaPlayer mp = new MediaPlayer();
     CountDownTimer countDownTimer;
+    SeekBar seekBar;
     long SLIDER_TIMER;
     int progressStatus;
 
@@ -70,13 +71,12 @@ public class MainActivity extends AppCompatActivity {
         tvChrono = (TextView) this.findViewById(R.id.tvChrono);
         tvChrono.setTypeface(Typeface.createFromAsset(getAssets(), "fonts/BebasNeue.ttf"));
 
-        final SeekBar sk=(SeekBar) this.findViewById(R.id.seekBar);
-        sk.setProgress(1);
-        sk.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+        seekBar = (SeekBar) this.findViewById(R.id.seekBar);
+        seekBar.setProgress(0);
+        seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
-            public void onProgressChanged(SeekBar seekBar, int progress,boolean fromUser) {
-                //updateSpeedTextView(progress);
-                //Constants.SCROLL_SPEED = progress;
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                tvSeekBarRemaining.setText("" + progress);
             }
 
             @Override
@@ -130,6 +130,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void startWorkout(long time) {
+        int currentProgress = seekBar.getProgress();
+        if (currentProgress > 0)
+            seekBar.setProgress(currentProgress - 1);
         actionStop(false);
         initTimer(time);
         resetProgressBar();
@@ -142,8 +145,10 @@ public class MainActivity extends AppCompatActivity {
         resetProgressBar();
         resetTimer();
         btStop.setVisibility(View.INVISIBLE);
-        if (raz)
+        if (raz) {
             tvChrono.setText("00:00");
+            seekBar.setProgress(seekBar.getProgress() + 1);
+        }
     }
 
     private void initTimer(long time) {
@@ -185,7 +190,8 @@ public class MainActivity extends AppCompatActivity {
             }
 
             public void onFinish() {
-                actionStop(true);
+                actionStop(false);
+                tvChrono.setText("00:00");
             }
         }.start();
     }
@@ -210,13 +216,27 @@ public class MainActivity extends AppCompatActivity {
                 break;*/
             // action with ID action_settings was selected
             case R.id.action_info:
-                Toast.makeText(this, "Settings selected", Toast.LENGTH_SHORT)
-                        .show();
+                showInfosActivity();
                 break;
             default:
                 break;
         }
         return true;
+    }
+
+    private void showInfosActivity() {
+        // Create the new dialog without title
+        final Dialog dialog = new Dialog(btStop.getContext());
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setCancelable(true);
+
+        // Content of the dialog
+        dialog.setContentView(R.layout.activity_infos);
+        dialog.show();
+
+        // Load data
+        //tvSpeed = (TextView) dialog.findViewById(R.id.tvScrollSpeed);
+        //updateSpeedTextView(Constants.SCROLL_SPEED);
     }
 
     private void showSettingsActivity() {
@@ -228,9 +248,5 @@ public class MainActivity extends AppCompatActivity {
         // Content of the dialog
         dialog.setContentView(R.layout.activity_settings);
         dialog.show();
-
-        // Load data
-        //tvSpeed = (TextView) dialog.findViewById(R.id.tvScrollSpeed);
-        //updateSpeedTextView(Constants.SCROLL_SPEED);
     }
 }
