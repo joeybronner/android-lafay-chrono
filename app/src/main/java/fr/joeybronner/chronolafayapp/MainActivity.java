@@ -29,6 +29,7 @@ public class MainActivity extends AppCompatActivity {
     MediaPlayer mp = new MediaPlayer();
     CountDownTimer countDownTimer;
     SeekBar seekBar;
+    boolean alreadyZero = false;
     long SLIDER_TIMER;
     int progressStatus;
 
@@ -131,8 +132,12 @@ public class MainActivity extends AppCompatActivity {
 
     private void startWorkout(long time) {
         int currentProgress = seekBar.getProgress();
-        if (currentProgress > 0)
+        if (currentProgress > 0) {
             seekBar.setProgress(currentProgress - 1);
+            alreadyZero = false;
+        } else {
+            alreadyZero = true;
+        }
         actionStop(false);
         initTimer(time);
         resetProgressBar();
@@ -147,7 +152,8 @@ public class MainActivity extends AppCompatActivity {
         btStop.setVisibility(View.INVISIBLE);
         if (raz) {
             tvChrono.setText("00:00");
-            seekBar.setProgress(seekBar.getProgress() + 1);
+            if (!alreadyZero)
+                seekBar.setProgress(seekBar.getProgress() + 1);
         }
     }
 
