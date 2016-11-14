@@ -1,0 +1,15 @@
+<resources>
+    <!-- Application -->
+    <string name="app_name">Lafay Chrono</string>
+    <string name="lafay_book"><a href="http://tinyurl.com/ht6xr48">Livre de Olivier Lafay</a></string>
+    <string name="lafay_website"><a href="https://olivier-lafay.com/">Site web de Olivier Lafay</a></string>
+
+    <!-- Main -->
+    <string name="cancel">ANNULER</string>
+
+    <!-- Infos -->
+    <string name="howitworks">Comment ça marche ?</string>
+    <string name="step1">Sélectionnez le nombre de répétitions</string>
+    <string name="step2">Faites votre exercice</string>
+    <string name="step3">Sélectionnez le temps de repos dont vous avez besoin</string>
+</resources>

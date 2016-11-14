@@ -4,6 +4,12 @@
     <string name="lafay_book"><a href="http://tinyurl.com/ht6xr48">Olivier Lafay\u0027s book</a></string>
     <string name="lafay_website"><a href="https://olivier-lafay.com/">Olivier Lafay\u0027s website</a></string>
 
+    <!-- Main -->
+    <string name="cancel">CANCEL</string>
+
     <!-- Infos -->
-    <string name="step1">Categories</string>
+    <string name="howitworks">How it works?</string>
+    <string name="step1">Select the number of reps</string>
+    <string name="step2">Do exercice</string>
+    <string name="step3">Tap the rest time button you need</string>
 </resources>
